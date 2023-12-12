@@ -46,6 +46,8 @@ print(correlation)
 
 **__#Show the above three in plots__**
 
+**__#plot1_Death event distribution__**
+
 import matplotlib.pyplot as plt
 
 target_col = 'DEATH_EVENT'
@@ -59,5 +61,71 @@ plt.xlabel(target_col)
 plt.ylabel('Count')
 plt.title('Distribution of Death Event')
 plt.xticks(x_ticks)  
+plt.savefig('plot1.png')
 plt.show()
 
+**__#plot2_distribution of Numerical Features__**
+numeric_cols = ['age', 'creatinine_phosphokinase', 'ejection_fraction', 'platelets', 'serum_creatinine', 'serum_sodium', 'time']
+
+fig, axes = plt.subplots(nrows=len(numeric_cols), ncols=1, figsize=(8, 6 * len(numeric_cols)))
+
+for i, col in enumerate(numeric_cols):
+    axes[i].hist(data[col], bins=10)
+    axes[i].set_xlabel(col)
+    axes[i].set_ylabel('Frequency')
+    axes[i].set_title(f'Distribution of {col}')
+
+plt.tight_layout()
+
+plt.savefig('plot2.png')
+
+plt.show()
+
+**__#plot3_Feature Correlation Heatmap__**
+
+import seaborn as sns
+correlation = data.corr()
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlation, annot=True, cmap='coolwarm')
+plt.title('Feature Correlation Heatmap')
+plt.savefig('plot3.png')
+plt.show()
+
+**__Generate Logistic Regression Model__**
+
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, precision_score, recall_score
+
+# set features and target variable
+X = data.drop('DEATH_EVENT', axis=1)
+y = data['DEATH_EVENT']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Feature Scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Regularization - Hyperparameter Tuning
+param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100]}
+grid_search = GridSearchCV(LogisticRegression(), param_grid, cv=5)
+grid_search.fit(X_train_scaled, y_train)
+
+# Get the best model from the grid search
+best_model = grid_search.best_estimator_
+
+# Fit the model on the training data
+best_model.fit(X_train_scaled, y_train)
+
+# Make predictions on the test set
+y_pred_scaled = best_model.predict(X_test_scaled)
+print("Predicted Labels:", y_pred_scaled)
+
+# Evaluate the model
+print("Accuracy:", accuracy_score(y_test, y_pred_scaled))
+print("Precision:", precision_score(y_test, y_pred_scaled))
+print("Recall:", recall_score(y_test, y_pred_scaled))
