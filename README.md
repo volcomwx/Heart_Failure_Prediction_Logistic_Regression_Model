@@ -65,6 +65,7 @@ plt.savefig('plot1.png')
 plt.show()
 
 **__#plot2_distribution of Numerical Features__**
+
 numeric_cols = ['age', 'creatinine_phosphokinase', 'ejection_fraction', 'platelets', 'serum_creatinine', 'serum_sodium', 'time']
 
 fig, axes = plt.subplots(nrows=len(numeric_cols), ncols=1, figsize=(8, 6 * len(numeric_cols)))
