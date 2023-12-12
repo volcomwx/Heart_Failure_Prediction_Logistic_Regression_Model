@@ -91,7 +91,7 @@ plt.title('Feature Correlation Heatmap')
 plt.savefig('plot3.png')
 plt.show()
 
-**__Generate Logistic Regression Model__**
+**__#Generate Logistic Regression Model__**
 
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression
@@ -118,7 +118,8 @@ best_model.fit(X_train_scaled, y_train)
 y_pred_scaled = best_model.predict(X_test_scaled)
 print("Predicted Labels:", y_pred_scaled)
 
-# Evaluate the model
+**__#Evaluate the model__**
+
 print("Accuracy:", accuracy_score(y_test, y_pred_scaled))
 print("Precision:", precision_score(y_test, y_pred_scaled))
 print("Recall:", recall_score(y_test, y_pred_scaled))
