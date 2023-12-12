@@ -7,7 +7,7 @@ I sourced the training data for this model from Kaggle and explored on the datas
 
 **__The code__**
 
-**__Explore the data__**
+**__#Explore the data__**
 
 import pandas as pd
 
@@ -44,5 +44,20 @@ print(data[target_col].value_counts())
 correlation = data.corr()
 print(correlation)
 
+**__#Show the above three in plots__**
 
+import matplotlib.pyplot as plt
+
+target_col = 'DEATH_EVENT'
+
+target_counts = data[target_col].value_counts()
+
+x_ticks = [0, 1]
+
+plt.bar(x_ticks, target_counts.values)
+plt.xlabel(target_col)
+plt.ylabel('Count')
+plt.title('Distribution of Death Event')
+plt.xticks(x_ticks)  
+plt.show()
 
