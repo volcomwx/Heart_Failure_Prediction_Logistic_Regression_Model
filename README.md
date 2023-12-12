@@ -22,3 +22,21 @@ print(data['DEATH_EVENT'].unique())
 print(data['DEATH_EVENT'].value_counts())
 
 print(data.isnull().sum())
+
+The result is as followed:
+
+import pandas as pd
+
+data = pd.read_csv('E:/Resume/机器学习数据模型/heart_failure.csv')
+
+print(data.head())
+
+print(data.info())
+
+print(data.describe())
+
+print(data['DEATH_EVENT'].unique())
+
+print(data['DEATH_EVENT'].value_counts())
+
+print(data.isnull().sum())
